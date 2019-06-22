@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="scripts/jquery-3.4.1.min.js"></script>
     <script src="scripts/client.js"></script>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <title>Document</title>
 </head>
@@ -16,18 +17,28 @@
             <form>
             <input type="text" placeholder="Employee First Name" id="firstNameIn">
             <input type="text" placeholder="Last Name" id="lastNameIn">
-            <input type="text" placeholder="ID Number" id="idNumberIn">
+            <input type="number" placeholder="ID Number" id="idNumberIn">
             <input type="text" placeholder="Job Title" id="jobTitleIn">
-            <input type="text" placeholder="Annual Salary" id="annualSalaryIn">
+            <input type="number" placeholder="Annual Salary" id="annualSalaryIn">
             <button id="addItemButton">Submit</button>
             </form>
     </section>
-    <div id="output">
-        <div id="first-name-out"></div>
-        <div id="last-name-out"></div>
-        <div id="ID-number-out"></div>
-        <div id="job-title-out"></div>
-        <div id="salary-output"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">First Name:</th>
+                <th scope="col">Last Name:</th>
+                <th scope="col">ID#:</th>
+                <th scope="col">Job Title:</th>
+                <th scope="col">Annual Salary:</th>
+            </tr>
+        </thead>
+        <tbody  id="output">
+        </tbody>
+    </table>
+    <div> 
+        <h3>Total Monthly Cost: $</h3>
+        <div id="monthly-cost"></div>
     </div>
     </main>
     
