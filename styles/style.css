@@ -1,10 +1,9 @@
-#output {
-    display: inline;
-    margin: 20px;
-    padding: 20px;
-}
-
 .red {
     color: red;
     font-weight: bold; 
+}
+
+.orange {
+    color: orange;
+    font-weight: bold;
 }

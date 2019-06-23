@@ -8,14 +8,25 @@ let totalMonthlyCosts = 0;
 
 function onReady () {
     console.log('in onReady function!');
+    // add click events for:
+    //      -- 1) render employee information when 'submit' button is clicked
+    //      -- 2) render monthly cost when 'submit' button is clicked 
+    //      -- 3) delete employee information when 'delete' button is clicked 
+    //      -- 4) change monthly costs to red if monthly total is over the max costs 
     $('#addItemButton').on('click', renderEmployee);
     $('#addItemButton').on('click', displayMonthlyCosts);
     $('#output').on('click','.delete',deleteEmployeeInfo);
     $('#monthly-costs').on('click', redAlert);
 }
 
+// add function to render employee info 
+//      -- declare a new object to take in the employee info entered into input fields 
+//      -- push this employee info to the employeeList array 
+//      -- clear input fields 
+//      -- call addEmployee function 
+//      -- call redAlert function
 function renderEmployee() {
-    console.log('in addEmployeeHandler');
+    console.log('in renderEmployee');
     event.preventDefault();
     let employeeInfo = {
         firstName: $('#firstNameIn').val(),
@@ -31,29 +42,17 @@ function renderEmployee() {
     $('#jobTitleIn').val('');
     $('#annualSalaryIn').val('');
     addEmployee();
-    redAlert();
 }
 
-function displayMonthlyCosts () {
-    event.preventDefault();
-    let el = $('#monthly-cost');
-    el.empty();
-    let monthlySalary = 0;
-    let totalAnnualSalary = 0; 
-    for (let i=0; i<employeeList.length; i++) {
-        totalAnnualSalary += Number(employeeList[i].annualSalary);
-        } 
-        monthlySalary = Math.round(totalAnnualSalary / 12);
-        $('#monthly-cost').append(`<p>${monthlySalary}</p>`);
-        totalMonthlyCosts = monthlySalary;
-        redAlert();
-}
-
+// add function to append new employee to DOM
+//      -- target the output ID 
+//      -- loop through array of employee objects 
+//      -- append a <li> containing info from each object 
+//      -- add a delete button at the end of the <li> 
 function addEmployee () {
+    console.log('in addEmployee');
     event.preventDefault();
-    let el = $('#output');
-    // let monthlySalary = 0;
-    // let totalAnnualSalary = 0; 
+    let el = $('#output'); 
     el.empty();
     for (let i=0; i<employeeList.length; i++) {
         el.append (
@@ -67,114 +66,58 @@ function addEmployee () {
             </li>
             `
              );
-            //  totalAnnualSalary += Number(employeeList[i].annualSalary);
-    }
-    // monthlySalary = Math.round(totalAnnualSalary / 12);
-    // $('#monthly-cost').append(`<p>${monthlySalary}</p>`);
+        }
 }
 
+// add a function to display monthly costs on DOM 
+//      -- target the monthly cost ID 
+//      -- declare two new variables: 
+//          1) totalAnnualSalary (each employee's annual salary added together)
+//          2) monthlySalary (each annual salary / 12)
+//      -- loop through array of employee objects 
+//          -- change the totalAnnualSalary's value to itself (0) + any annual salary that's been entered 
+//      -- change the monthly total value to the annual salary / 12 
+//      -- append the monthly salary to the declared element
+//      -- set the globally declared totalMonthlyCosts variable equal to monthlySalary 
+//      -- call the redAlert function
+function displayMonthlyCosts () {
+    console.log('in displayMonthlyCosts');
+    event.preventDefault();
+    let el = $('#monthly-cost');
+    el.empty();
+    let totalAnnualSalary = 0; 
+    let monthlySalary = 0;
+    for (let i=0; i<employeeList.length; i++) {
+        totalAnnualSalary += Number(employeeList[i].annualSalary);
+        } 
+        monthlySalary = Math.round(totalAnnualSalary / 12);
+        el.append(`<p>${monthlySalary}</p>`);
+        totalMonthlyCosts = monthlySalary;
+        redAlert();
+}
+
+// add a function to delete the employee info of each input 
+//      -- using 'this' grab the parent element of the delete function (which will be the employee info)
+//      -- using 'this' again, remove the parent element's contents 
 function deleteEmployeeInfo (event) {
-    console.log('in delete task', $(this).parent().text());
+    console.log('in deleteEmployeeInfo', $(this).parent().text());
     $(this).parent().remove();
 }
 
+// add a function to change the total appended monthly costs to red if costs reach over 20000, and orange if costs 
+// equal 20000
+//      -- add a conditional statement in which targets the monthly cost ID, and adds a class 'red' (from CSS)
+//          if total monthly costs are greater than the maximum monthly costs 
+//      -- if total monthly costs equal max monthly costs, add class 'orange' (from CSS)
 function redAlert () {
-        if (totalMonthlyCosts >= maxMonthlyCosts)
-        $('#monthly-cost').addClass('red');
+    console.log('in redAlert');
+    if (totalMonthlyCosts > maxMonthlyCosts)
+    $('#monthly-cost').addClass('red');
+    else if (totalMonthlyCosts === maxMonthlyCosts)
+    $('#monthly-cost').addClass('orange');
+    alert('Your costs have reached or exceeded the maximum!');
 }
-// function deleteEmployeeInfo (event) {
-//     let el = $('#output');
-//     for (let i=0; i<employeeList.length; i++) {
-//         console.log('in for loop');
-//         el.remove (
-//             ` ${employeeList[i]} `
-//         );
-//     }
-//     $(this).parent().remove();
-// }
 
-
-
-// function addMonthlyCosts () {
-//     let monthlySalary = 0;
-//     let totalAnnualSalary = 0; 
-//     let el = $('monthly-cost');
-//     el.empty();
-//     for (let i=0; i<employeeList.length; i++) {
-//         el.append ( `<tr>
-//                     <th>${employeeList[i].annualSalary}</th>
-//                     </tr>`
-//         );
-//                     totalAnnualSalary += Number(employeeList[i].annualSalary); 
-//     }
-//     monthlySalary = Math.round(totalAnnualSalary / 12);
-//     $('#monthly-cost').append(`<p>${monthlySalary}</p>`);
-//     monthlySalary += monthlySalary;
-
-// }
-
-// function addEmployeeFirstName () {
-//     console.log('in addEmployee function');
-//    let el = $('#first-name-out');
-//    el.empty();
-//    for (let i=0; i<employeeList.length; i++) {
-//        el.append(`<p>${employeeList[i].firstName}</p>`)
-//    }
-//    $('#firstNameIn').val('');
-// }
-
-// function addEmployeeLastName () {
-//     console.log('in addEmployee function');
-//    let el = $('#last-name-out');
-//    el.empty();
-//    for (let i=0; i<employeeList.length; i++) {
-//        el.append(`<p>${employeeList[i].lastName}</p>`)
-//    }
-//    $('#lastNameIn').val('');
-// }
-
-// function addEmployeeID () {
-//     console.log('in addEmployee function');
-//    let el = $('#ID-number-out');
-//    el.empty();
-//    for (let i=0; i<employeeList.length; i++) {
-//        el.append(`<p>${employeeList[i].idNumber}</p>`)
-//    }
-//    $('#IdNumberIn').val('');
-// }
-
-// function addEmployeeJobTitle () {
-//     console.log('in addEmployee function');
-//    let el = $('#job-title-out');
-//    el.empty();
-//    for (let i=0; i<employeeList.length; i++) {
-//        el.append(`<p>${employeeList[i].jobTitle}</p>`)
-//    }
-//    $('#jobTitleIn').val('');
-// }
-
-// function addEmployeeSalary () {
-//     console.log('in addEmployee function');
-//    let el = $('#salary-output');
-//    el.empty();
-//    for (let i=0; i<employeeList.length; i++) {
-//        el.append(`<p>${employeeList[i].annualSalary}</p>`)
-//    }
-//    $('#annualSalaryIn').val('');
-// }
-
-// function addAllSalaries () {
-//     let monthlySalary = 0;
-//     let totalAnnualSalary = 0; 
-//     let el = $ ('#monthly-cost');
-//     el.empty();
-//     for (let i=0; i<employeeList.length; i++) {
-//         totalAnnualSalary += Number(employeeList[i].annualSalary);
-//     }
-//     monthlySalary = Math.round(totalAnnualSalary / 12);
-//     console.log(monthlySalary);
-//     el.append(`<p>${monthlySalary}</p>`)
-// }
 
 
 
