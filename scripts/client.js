@@ -17,6 +17,7 @@ function onReady () {
     $('#addItemButton').on('click', displayMonthlyCosts);
     $('#output').on('click','.delete',deleteEmployeeInfo);
     $('#monthly-costs').on('click', redAlert);
+    // $('#output').on('click','.delete',updateDeletedEmployees); **** disabled ****
 }
 
 // add function to render employee info 
@@ -115,11 +116,28 @@ function redAlert () {
     $('#monthly-cost').addClass('red');
     else if (totalMonthlyCosts === maxMonthlyCosts)
     $('#monthly-cost').addClass('orange');
-    alert('Your costs have reached or exceeded the maximum!');
+    alertMessage();
 }
 
+// add a function to alert the user if their monthly costs have exceeded their max monthly costs
+//      -- add a conditional statement
+//      -- if this statement is true, send alert message to DOM that their costs have exceeded the max
+function alertMessage () {
+    console.log('in alertMessage');
+    if (totalMonthlyCosts > maxMonthlyCosts)
+    alert('Your Monthly Costs Have Exceeded the Maximum!');
+}
 
-
+// **** disabled function ****
+// function updateDeletedEmployees () {
+//     let el=('#output');
+//     el.empty();
+//     for (let i=0; i<employeeList.length; i++) {
+//         el.remove ( 
+//             `${employeeList[i]}`
+//         )
+//     }
+// }
 
 
 
